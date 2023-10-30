@@ -4,13 +4,12 @@ import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
 
 const signupApi = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBVCqLAhTyXyQ5ZA_q0AqV-dtjxAbu5-Zc";
 const loginApi ="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBVCqLAhTyXyQ5ZA_q0AqV-dtjxAbu5-Zc"
-const api = "https://expense-tracker-25d4f-default-rtdb.asia-southeast1.firebasedatabase.app/allmail";
 
 const initialState = {
     allMail: [],
     isLoading: true,
     trackmail: 0,
-    usermail: null,
+    usermail:"",
     activeSentboxId:null,
     activeStarredId:null,
     activeInboxId:null
@@ -30,6 +29,7 @@ export const authMailLogin = createAsyncThunk(
           },
         }).then(res => {
             if (res.ok) {
+                localStorage.setItem('usermail',payload.email)
                 return res.json();
             }else {
                 return Promise.reject("Request failed with status: " + res.status);
@@ -55,6 +55,7 @@ export const authMailSignUp = createAsyncThunk(
                 }),
             }).then(res => {
                 if (res.ok) {
+                    localStorage.setItem('usermail',payload.email)
                     return res.json();
                 } else {
                     return Promise.reject("Request failed with status: " + res.status);
@@ -70,13 +71,13 @@ export const authMailSignUp = createAsyncThunk(
 export const getAllMail = createAsyncThunk(
     "mailbox/getAllMail",
         () => {
-        return fetch(`${api}.json`).then(data=>data.json()).catch(e=>console.log(e))
+        return fetch("/allmail").then(data=>data.json()).catch(e=>console.log(e))
     }
 )
 export const addMail = createAsyncThunk(
     "mailbox/addMail",
     (payload) => {
-        return fetch(`${api}.json`, {
+        return fetch("/add-mail", {
             method: "POST",
             headers: {
               "Content-type": "application/json"
@@ -111,7 +112,7 @@ export const addMail = createAsyncThunk(
 export const updateMail = createAsyncThunk(
     "mailbox/updateMail",
     (payload) => {
-        return fetch(`${api}/${payload.id}.json`, {
+        return fetch("/update-mail", {
             method: "PUT",
             headers: {
               "Content-type": "application/json"
@@ -145,6 +146,9 @@ const mailboxSlice = createSlice({
         },
         activateStarredId: (state, action) => {
             state.activeStarredId=action.payload
+        },
+        getUsermail: (state) => {
+            state.usermail=localStorage.getItem('usermail')
         }
     },
     extraReducers: {
@@ -154,7 +158,8 @@ const mailboxSlice = createSlice({
         [getAllMail.fulfilled]: (state, action) => {
             state.isLoading = false
             if (action.payload) {
-                const allData = Object.entries(action.payload);
+                const a = action.payload;
+                const allData=a.allmail
                 state.allMail = allData
                
             }
@@ -208,7 +213,7 @@ const mailboxSlice = createSlice({
 
 });
 
-export const{activateInboxId,activateSentboxId,activateStarredId}=mailboxSlice.actions
+export const{activateInboxId,activateSentboxId,activateStarredId, getUsermail}=mailboxSlice.actions
 
 export default mailboxSlice.reducer
 

@@ -1,0 +1,7 @@
+.toolbarClassName {
+    display: flex;
+    gap:20px;
+}
+.toolbarClassName>div{
+    display: flex;
+}

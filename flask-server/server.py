@@ -48,13 +48,13 @@ def update_mail():
             if mail["id"]==desired_id:
                 if "read" in data:
                     mail["read"]=data["read"]
-                    return jsonify({"message":"member updated successfully"})
+                    return jsonify({"message":"member read successfully"})
                 elif "star" in data:
                     mail["star"][user]=data["star"]
-                    return jsonify({"message":"member updated successfully"})
+                    return jsonify({"message":"member starred successfully"})
                 elif "deleted" in data:
                     mail["deleted"][user]=data["deleted"]
-                    return jsonify({"message":"member updated successfully"})
+                    return jsonify({"message":"member deleted successfully"})
                 else:
                     return jsonify({"message":"could not update due to missing data"})
     return jsonify({"message":"could not update member 400"})

@@ -7,7 +7,6 @@ import { FaCircle, FaDumpster, FaStar } from "react-icons/fa";
 
 export default function Mail(props) {
   const { sender, body, subject, id, read, star, receiver } = props.mail
-  console.log('mail',props.mail)
   const{usermail}=useSelector(state=>state.mailbox)
   const dispatch = useDispatch()
 
@@ -43,10 +42,10 @@ export default function Mail(props) {
   
     return (
       <div
-        style={{ background:"skyblue"}}>
+        style={{ background:"pink"}}>
         <div className="mail-bar">
           <FaDumpster onClick={delete_mail}/>
-          <FaCircle style={{visibility:read?"hidden":"visible", color:'skyblue'}}/>
+          <FaCircle style={{visibility:read?"hidden":"visible", color:'skyblue',display:props.sent?"none":"block"}}/>
           <FaStar style={{color:star[usermail]?"yellow":"grey"}} onClick={update_star_status}/>
           <div>{props.sent?receiver:sender}</div>
         
