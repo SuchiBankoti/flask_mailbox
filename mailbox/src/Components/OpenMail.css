@@ -1,0 +1,35 @@
+.mail-body{
+display: flex;
+flex-direction: column;
+gap:20px;
+background-color:#f3f3f3;
+}
+.mail-body-top-bar{
+ 
+}
+.mail-body-subject-title{
+    display: flex;
+    font-weight: 600;
+    padding: 10px;
+    font-size: 21px;
+    gap:20px;
+}
+.mail-body-info-bar{
+    display: flex;
+    justify-content: space-between;
+    padding-right:100px;
+    width: 100vw;
+    border: 1px solid black;
+}
+.mail-body-text{
+ font-family: cursive;
+}
+.tabs{
+    display: flex;
+    gap:20px;
+}
+span{
+    font-size:15px;
+    color: black;
+    margin: 0px 10px;
+}

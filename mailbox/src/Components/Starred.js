@@ -10,7 +10,7 @@ export default function Starred() {
         <Accordion>
              {allMail.filter(mail =>mail.star[usermail] && !mail.deleted[usermail]).map((mail,i) => {
                  return (
-                     <Mail key={nanoid()} i={i} mail={mail} />
+                     <Mail key={nanoid()} i={i} mail={mail} starred={true} />
                      
                     )
                 })}

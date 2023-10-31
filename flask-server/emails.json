@@ -1,0 +1,74 @@
+[
+    {
+        "id": "Bg6X7wnRGtNemewCB6JK52",
+        "sender": "noob@gmail.com",
+        "receiver": "pujarasuchi386@gmail.com",
+        "subject": "Regarding stuff",
+        "body": "<p>Random text for mail filler: <strong>news,paper,towel</strong></p><p><br></p>",
+        "read": true,
+        "deleted": {
+            "noob@gmail.com": false,
+            "pujarasuchi386@gmail.com": true
+        },
+        "star": {
+            "noob@gmail.com": false,
+            "pujarasuchi386@gmail.com": true
+        },
+        "time": "04:32 PM",
+        "date": "31/10/2023"
+    },
+    {
+        "id": "dtkSdhPzNRZQkDh6qCUgAF",
+        "sender": "noob@gmail.com",
+        "receiver": "pujarasuchi386@gmail.com",
+        "subject": "next subject",
+        "body": "<p>sdggggggggggggggggggggggjk dkjjjjjjjjjjjjjjjjjjjjj thhhhhhhhhhhhhhhhh</p>",
+        "read": true,
+        "deleted": {
+            "noob@gmail.com": false,
+            "pujarasuchi386@gmail.com": false
+        },
+        "star": {
+            "noob@gmail.com": false,
+            "pujarasuchi386@gmail.com": true
+        },
+        "time": "04:34 PM",
+        "date": "31/10/2023"
+    },
+    {
+        "id": "3CtGD7Bfdp7gnC3kBrNjMD",
+        "sender": "aaa@gmail.com",
+        "receiver": "noob@gmail.com",
+        "subject": "first text for noob",
+        "body": "<p>fffff</p>",
+        "read": true,
+        "deleted": {
+            "aaa@gmail.com": false,
+            "noob@gmail.com": false
+        },
+        "star": {
+            "aaa@gmail.com": false,
+            "noob@gmail.com": false
+        },
+        "time": "04:39 PM",
+        "date": "31/10/2023"
+    },
+    {
+        "id": "fkjgWdbnPG7K4XLA2gY8b5",
+        "sender": "aaa@gmail.com",
+        "receiver": "newuser@gmail.com",
+        "subject": "regarding stuff",
+        "body": "<p>Data Transformation and Normalization: Thunks can handle data transformation and normalization as part of the action creation process. This helps ensure that data is in the correct format before being stored in the Redux store.</p>",
+        "read": true,
+        "deleted": {
+            "aaa@gmail.com": false,
+            "newuser@gmail.com": true
+        },
+        "star": {
+            "aaa@gmail.com": false,
+            "newuser@gmail.com": true
+        },
+        "time": "06:20 PM",
+        "date": "31/10/2023"
+    }
+]

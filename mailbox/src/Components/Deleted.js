@@ -14,7 +14,7 @@ export default function Deleted() {
         <div>
              {allMail.filter(mail =>mail.deleted[usermail]).map((mail,i) => {
                  return (
-                     <Mail key={nanoid()} i={i} mail={mail} />
+                     <Mail key={nanoid()} i={i} mail={mail} deleted={true} />
                      
                     )
                 })}

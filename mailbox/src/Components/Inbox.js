@@ -14,7 +14,7 @@ export default function Inbox() {
         <div>
              {allMail.filter(mail => mail.receiver === usermail && !mail.deleted[usermail]).map((mail,i) => {
                  return (
-                     <Mail key={nanoid()} i={i} mail={mail} />
+                     <Mail key={nanoid()} i={i} mail={mail} inbox={true} />
                      
                     )
                 })}

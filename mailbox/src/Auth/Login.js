@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { authMailLogin } from "../Store/CreateSlice";
 
 
@@ -10,14 +10,28 @@ export default function Login(props) {
         email: "",
         password: "",
     })
-    const dispatch=useDispatch()
+    const [err,setErr]=useState("")
+    const dispatch = useDispatch()
+    const navigate=useNavigate()
     function handleChange(e) {
         setFormdata(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
+    
 
     const user_login = () => {
-       dispatch(authMailLogin(formdata))
-   }
+        dispatch(authMailLogin(formdata))
+            .then((res) => {
+                if (res.payload.email) {
+                    navigate("/welcome");
+                } else {
+                    setErr(res.payload.message)
+                    
+                }
+            })
+            .catch((error) => {
+                console.error("Login error:", error);
+            });
+    }
 
     return (
         <div>
@@ -32,15 +46,12 @@ export default function Login(props) {
                     <Form.Control type="password" placeholder="Password" name="password" value={formdata.password} onChange={handleChange} />
                 </Form.Group>
             </Form>
-
-            <Link to="/welcome">
+            <div style={{ color: "red" }}>{err}</div>
                 <Button variant="primary"
                     onClick={user_login}
-                    disabled={!formdata.email || !formdata.password}
                 >
                     Login
                 </Button>
-            </Link>
 
             <div onClick={props.handleLogin}>New here?<span>SignUp</span></div>
         </div>

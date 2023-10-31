@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authMailSignUp } from "../Store/CreateSlice";
 
 
@@ -13,14 +13,25 @@ export default function SignUp(props) {
         password: "",
         confirmPassword:""
     })
-    const dispatch=useDispatch()
     const[err,setErr]=useState("")
+    const dispatch = useDispatch()
+    const navigate=useNavigate()
     function handleChange(e) {
         setFormdata(prev => ({ ...prev, [e.target.name]: e.target.value }))
         
     }
     function user_sign_up() {
         dispatch(authMailSignUp(formdata))
+            .then((res) => {
+                if (res.payload.email) {
+                    navigate("/welcome");
+                } else {
+                    setErr(res.payload.message)
+                }
+            })
+            .catch((error) => {
+                console.error("Signup error:", error);
+            });
     }
     useEffect(() => {
         if (formdata.password.length>=8 && formdata.password !== formdata.confirmPassword) {
@@ -50,14 +61,9 @@ export default function SignUp(props) {
                 </Form.Group>
                 <Form.Text style={{color:"red"}}>{err}</Form.Text>
             </Form>
-            {(err === "" && formdata.email && formdata.password === formdata.confirmPassword) ? <Link to="/welcome">
-                <Button variant="primary" onClick={() => {
-                    if (formdata.email && formdata.password === formdata.confirmPassword)
-                        user_sign_up()
-                }}>
+                <Button variant="primary" onClick={user_sign_up}>
                     SignUp
                 </Button>
-            </Link>:<Button onClick={()=>setErr("invalid credentials")}>SignUp</Button>}
             <div onClick={props.handleLogin}>Already have an account?<span>Login</span></div>
         </div>
     )

@@ -1,10 +1,5 @@
 import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
 
-
-
-const signupApi = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBVCqLAhTyXyQ5ZA_q0AqV-dtjxAbu5-Zc";
-const loginApi ="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBVCqLAhTyXyQ5ZA_q0AqV-dtjxAbu5-Zc"
-
 const initialState = {
     allMail: [],
     isLoading: true,
@@ -12,17 +7,18 @@ const initialState = {
     usermail:"",
     activeSentboxId:null,
     activeStarredId:null,
-    activeInboxId:null
+    activeInboxId: null,
+    activeDeletedId:null,
+    activeSentModal:false
     
 }
 export const authMailLogin = createAsyncThunk(
     "mailbox/login", (payload) => {
-        return fetch(loginApi, {
+        return fetch("/login", {
           method: "POST",
           body: JSON.stringify({
-            email:payload.email,
+            user:payload.email,
             password:payload.password,
-            returnSecureToken: true,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -43,15 +39,14 @@ export const authMailLogin = createAsyncThunk(
 export const authMailSignUp = createAsyncThunk(
     "mailbox/signUp", (payload) => {
         if (payload.email && payload.password && payload.confirmPassword) {
-            return fetch(signupApi, {
+            return fetch("/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    email: payload.email,
+                    user: payload.email,
                     password:payload.password,
-                    returnSecureToken: true,
                 }),
             }).then(res => {
                 if (res.ok) {
@@ -83,6 +78,8 @@ export const addMail = createAsyncThunk(
               "Content-type": "application/json"
             },
             body: JSON.stringify({
+                date:payload.date,
+                time:payload.time,
                 sender: payload.usermail,
                 receiver: payload.maildata.emailAddress,
                 subject: payload.maildata.subject,
@@ -147,8 +144,14 @@ const mailboxSlice = createSlice({
         activateStarredId: (state, action) => {
             state.activeStarredId=action.payload
         },
+        activateDeletedId: (state, action) => {
+          state.activeDeletedId=action.payload  
+        },
         getUsermail: (state) => {
             state.usermail=localStorage.getItem('usermail')
+        },
+        activateModal: (state, action) => {
+            state.activeSentModal=action.payload
         }
     },
     extraReducers: {
@@ -172,12 +175,22 @@ const mailboxSlice = createSlice({
         },
         [addMail.fulfilled]: (state, action) => {
             state.isLoading = false
-            state.trackmail=state.trackmail+1
+            state.trackmail = state.trackmail + 1
+            state.activeSentModal=true
         },
         [addMail.rejected]: (state) => {
             state.isLoading=false
         },
-        
+        [updateMail.pending]: (state) => {
+            state.isLoading=true
+        },
+        [updateMail.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.trackmail=state.trackmail+1
+        },
+        [updateMail.rejected]: (state) => {
+            state.isLoading=false
+        },
         [authMailLogin.pending]: (state) => {
             state.isLoading=true
         },
@@ -198,22 +211,11 @@ const mailboxSlice = createSlice({
         [authMailSignUp.rejected]: (state) => {
             state.isLoading=false
         },
-        
-        [updateMail.pending]: (state) => {
-            state.isLoading=true
-        },
-        [updateMail.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.trackmail=state.trackmail+1
-        },
-        [updateMail.rejected]: (state) => {
-            state.isLoading=false
-        },
     }
 
 });
 
-export const{activateInboxId,activateSentboxId,activateStarredId, getUsermail}=mailboxSlice.actions
+export const{activateInboxId,activateSentboxId,activateStarredId, getUsermail,activateModal,activateDeletedId}=mailboxSlice.actions
 
 export default mailboxSlice.reducer
 

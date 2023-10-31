@@ -10,10 +10,11 @@ import Navbar from "./Components/Navbar";
 import Starred from "./Components/Starred";
 import OpenMail from "./Components/OpenMail";
 import Deleted from "./Components/Deleted";
+import {BiRefresh} from "react-icons/bi"
 
 
 export default function Welcome() {
-    const { trackmail,allMail,activeInboxId,activeSentboxId,usermail} = useSelector(state => state.mailbox) 
+    const { trackmail,allMail,activeInboxId,activeSentboxId,activeStarredId,activeDeletedId,usermail} = useSelector(state => state.mailbox) 
     const dispatch=useDispatch()
   useEffect(() => {
     dispatch(getAllMail())
@@ -31,7 +32,9 @@ export default function Welcome() {
     return (
         <>
         <Navbar />
-        <button onClick={()=>dispatch(getAllMail())}>Refresh</button>
+        <button onClick={() => dispatch(getAllMail())}>
+          <BiRefresh/>
+        </button>
          <Tabs
       defaultActiveKey="inbox"
       id="uncontrolled-tab"
@@ -45,13 +48,13 @@ export default function Welcome() {
             {activeInboxId ? <OpenMail isInbox={true} />:<Inbox />}
       </Tab>
       <Tab eventKey="sent" title="Sent">
-            {activeSentboxId ? <OpenMail /> : <SentBox />}
+            {activeSentboxId ? <OpenMail isSent={true} /> : <SentBox />}
                 </Tab>
-                <Tab eventKey="starred" title="Starred" >
-        <Starred/>
-      </Tab>
+           <Tab eventKey="starred" title="Starred" >
+            {activeStarredId ? <OpenMail isStarred={true} />:<Starred />}
+          </Tab>
       <Tab eventKey="deleted" title="Deleted" >
-        <Deleted/>
+            {activeDeletedId ? <OpenMail isDeleted={true} />:<Deleted/>}
                 </Tab>
                
             </Tabs>
